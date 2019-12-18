@@ -85,8 +85,8 @@ def get_tensor_size(tensor):
     return reduce(mul, (d.value for d in tensor.get_shape()), 1)
 
 
-def conv2d_basic(x, W, bias):
-    conv = tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding="SAME")
+def conv2d_basic(x, W, bias, padding="SAME"):
+    conv = tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding=padding)
     return tf.nn.bias_add(conv, bias)
 
 
@@ -114,6 +114,10 @@ def leaky_relu(x, alpha=0.0, name=""):
 
 def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
+
+
+def max_pool_nxn(x, kernel_size, padding="SAME"):
+    return tf.nn.max_pool(x, ksize=[1, kernel_size, kernel_size, 1], strides=[1, kernel_size, kernel_size, 1], padding=padding)
 
 
 def avg_pool_2x2(x):
